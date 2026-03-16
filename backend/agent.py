@@ -24,24 +24,25 @@ async def fill_contact_form(url: str, info: dict) -> dict:
     session = BrowserSession(browser_profile=profile)
 
     task = f"""
-    You are a form filling assistant. Follow these steps carefully:
+You are a form filling assistant. Follow these steps carefully:
 
-    1. Go to this URL: {url}
-    2. Look for a Contact page link in navigation menu or footer
-       (words like: Contact, Contact Us, Get In Touch, Reach Us, Write to Us)
-    3. Click that link to go to contact page
-    4. Find the contact form on that page
-    5. Fill in these details:
-       - Name / Full Name: {info['name']}
-       - Email / Email Address: {info['email']}
-       - Phone / Mobile / Contact Number: {info['phone']}
-       - Message / Query / Description / How can we help: {info['message']}
-    6. Click the Submit / Send / Send Message button
-    7. Wait for confirmation (thank you message, success alert, page change)
-    8. If successful, reply exactly: FORM_SUBMITTED
-    9. If no contact form found anywhere on site, reply: NO_FORM
-    10. If already on contact page (URL contains /contact), skip step 2 and 3
-    """
+1. Go to this URL: {url}
+2. Find Contact page (nav/footer mein: Contact, Contact Us, Get In Touch)
+3. Click that link
+4. Find the contact form
+5. Fill fields by matching their LABELS (not position):
+   - Field labeled Name/Full Name/Your Name → {info['name']}
+   - Field labeled Email/Email Address → {info['email']}  
+   - Field labeled Phone/Mobile/Tel/Contact → {info['phone']}
+   - Field labeled Message/Query/How can we help → {info['message']}
+6. Submit the form
+7. Wait 3 seconds after submit
+8. If ANY positive response appears (thank you, success, sent, received, will contact)
+   OR if page URL changed after submit → reply: FORM_SUBMITTED
+9. If no contact form found → reply: NO_FORM
+10. If already on contact page (URL has /contact) → skip steps 2-3
+"""
+
 
     try:
         agent = Agent(
