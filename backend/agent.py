@@ -6,7 +6,8 @@ from playwright.async_api import async_playwright
 load_dotenv()
 
 # Gemini fallback ke liye
-from browser_use import Agent, BrowserSession, BrowserProfile
+from browser_use import Agent, Browser, BrowserConfig
+
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 CONTACT_PATHS = [
@@ -139,14 +140,14 @@ async def fill_with_gemini_fallback(url: str, info: dict) -> dict:
             google_api_key=os.getenv("GEMINI_API_KEY")
         )
 
-        profile = BrowserProfile(
-            headless=True,
-            extra_chromium_args=[
-                '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
-            ]
-        )
-        session = BrowserSession(browser_profile=profile)
-
+        browser = Browser(
+    config=BrowserConfig(
+        headless=True,
+        extra_chromium_args=[
+            '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
+        ]
+    )
+)
         task = f"""
 Fill contact form on {url}:
 - Name: {info['name']}
@@ -157,7 +158,8 @@ Fill contact form on {url}:
 Find contact page, fill form by LABEL matching, submit.
 Reply FORM_SUBMITTED if done, NO_FORM if no form found.
 """
-        agent = Agent(task=task, llm=llm, browser_session=session, max_actions_per_step=8)
+        agent = Agent(task=task, llm=llm, browser=browser, max_actions_per_step=8)
+        
         history = await agent.run(max_steps=10)
         result = str(history.final_result() or "")
 
