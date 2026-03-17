@@ -52,7 +52,7 @@ You are a form filling assistant. Follow these steps carefully:
             max_actions_per_step=10,
         )
 
-        history = await agent.run(max_steps=20)
+        history = await agent.run(max_steps=10)
         result = str(history.final_result() or "")
 
         if "NO_FORM" in result:
