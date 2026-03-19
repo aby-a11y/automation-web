@@ -101,7 +101,7 @@ async def try_fill_with_playwright(page, info: dict) -> bool:
 
 
 async def find_contact_page(page, base_url: str) -> bool:
-    """Contact page dhundo"""
+    """FInd the contact page"""
     # Common paths try karo
     for path in CONTACT_PATHS:
         try:
