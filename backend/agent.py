@@ -136,7 +136,7 @@ async def fill_with_gemini_fallback(url: str, info: dict) -> dict:
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
         llm = ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
 
     
     google_api_key=os.getenv("GEMINI_API_KEY")
