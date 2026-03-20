@@ -3,5 +3,6 @@ fastapi
 uvicorn
 python-dotenv
 playwright
-langchain-google-genai==2.0.8
+langchain-google-genai>=2.1.0
+
 
