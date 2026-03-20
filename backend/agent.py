@@ -134,11 +134,12 @@ async def find_contact_page(page, base_url: str) -> bool:
 async def fill_with_gemini_fallback(url: str, info: dict) -> dict:
     """Gemini Flash AI fallback"""
     try:
-from langchain_google_genai import ChatGoogleGenerativeAI
-llm = ChatGoogleGenerativeAI(
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     google_api_key=os.getenv("GEMINI_API_KEY")
 )
+
 
 
         browser = Browser(
