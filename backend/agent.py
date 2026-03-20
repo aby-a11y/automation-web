@@ -140,14 +140,15 @@ async def fill_with_gemini_fallback(url: str, info: dict) -> dict:
             google_api_key=os.getenv("GEMINI_API_KEY")
         )
 
-        browser = Browser(
-    config=BrowserConfig(
-        headless=True,
-        extra_chromium_args=[
-            '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
-        ]
-    )
-)
+            browser = Browser(
+            config=BrowserConfig(
+                headless=True,
+                extra_chromium_args=[
+                    '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
+                ]
+            )
+        )
+
         task = f"""
 Fill contact form on {url}:
 - Name: {info['name']}
